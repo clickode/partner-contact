@@ -64,24 +64,13 @@
             <xpath expr="//field[@id='company']" position="attributes">
             -->
             <xpath expr="//div[@class='d-flex flex-column flex-grow-1']/h1/field[2]" position="attributes">
-                <attribute name="invisible">not is_company</attribute>
         <!-- end clickode v19 patch-->
+                <attribute name="invisible">not is_company</attribute>
                 <attribute name="readonly">not is_company</attribute>
                 <attribute name="required">type == 'contact' and is_company</attribute>
             </xpath>
 
-            <!-- start clickode v19 patch
-            <xpath
-                expr="//div[hasclass('oe_title')]//field[@id='company']/.."
-                position="after"
-            >
-            -->
-            <!--
-            <xpath
-                expr="//div//field[@id='company']/.."
-                position="after"
-            >
-            -->
+        <!-- start clickode v19 patch-->
             <xpath expr="//h1//field[@name='name' and @invisible='not is_company']" position="after">            
             <!-- end clickode -->
                 <div class="oe_edit_only">
