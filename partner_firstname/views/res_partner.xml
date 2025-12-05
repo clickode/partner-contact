@@ -3,30 +3,18 @@
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_partner_simple_form" />
         <field name="arch" type="xml">
-        <!-- start clickode v19 patch -->
-        <!--
-            <xpath expr="//field[@id='individual']" position="attributes">
-            -->
             <xpath expr="//h1//field[@name='name' and @invisible='is_company']" position="attributes">
                 <attribute name="invisible">is_company</attribute>
                 <attribute name="readonly">not is_company</attribute>
                 <attribute name="required">type == 'contact' and is_company</attribute>
             </xpath>
             
-        <!-- start clickode v19 patch -->
-        <!--
-            <xpath expr="//field[@id='company']" position="attributes">
-            -->
             <xpath expr="//h1//field[@name='name' and @invisible='not is_company']" position="attributes">
                 <attribute name="invisible">is_company == False</attribute>
                 <attribute name="readonly">not is_company</attribute>
                 <attribute name="required">type == 'contact' and is_company</attribute>
             </xpath>
 
-        <!-- start clickode v19 patch -->
-        <!--
-            <xpath expr="//h1//field[@id='company']/.." position="before">
-            -->
             <xpath expr="//h1//field[@name='name' and @invisible='is_company']/.." position="before">            
                 <group invisible="is_company">
                     <field
@@ -48,31 +36,19 @@
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_partner_form" />
         <field name="arch" type="xml">
-        <!-- start clickode v19 patch-->
-        <!--
-            <xpath expr="//field[@id='individual']" position="attributes">
-            -->
             <xpath expr="//div[@class='d-flex flex-column flex-grow-1']/h1/field[1]" position="attributes">
-        <!-- end clickode v19 patch-->
                 <attribute name="invisible">is_company</attribute>
                 <attribute name="readonly">not is_company</attribute>
                 <attribute name="required">type == 'contact' and is_company</attribute>
             </xpath>
 
-        <!-- start clickode v19 patch-->
-        <!--
-            <xpath expr="//field[@id='company']" position="attributes">
-            -->
             <xpath expr="//div[@class='d-flex flex-column flex-grow-1']/h1/field[2]" position="attributes">
-        <!-- end clickode v19 patch-->
                 <attribute name="invisible">not is_company</attribute>
                 <attribute name="readonly">not is_company</attribute>
                 <attribute name="required">type == 'contact' and is_company</attribute>
             </xpath>
 
-        <!-- start clickode v19 patch-->
             <xpath expr="//h1//field[@name='name' and @invisible='not is_company']" position="after">            
-            <!-- end clickode -->
                 <div class="oe_edit_only">
                     <group invisible="is_company">
                         <field
@@ -89,7 +65,6 @@
                     </group>
                 </div>
             </xpath>
-            <!-- Modify inner contact form of child_ids -->
             <xpath
                 expr="//field[@name='child_ids']/form//field[@name='name']"
                 position="attributes"
@@ -121,3 +96,4 @@
         </field>
     </record>
 </odoo>
+
