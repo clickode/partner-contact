@@ -76,10 +76,13 @@
                 position="after"
             >
             -->
+            <!--
             <xpath
                 expr="//div//field[@id='company']/.."
                 position="after"
             >
+            -->
+            <xpath expr="//h1//field[@name='name' and @invisible='not is_company']" position="after">            
             <!-- end clickode -->
                 <div class="oe_edit_only">
                     <group invisible="is_company">
