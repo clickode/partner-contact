@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 # Authors: Nemry Jonathan
 # Copyright (c) 2014 Acsone SA/NV (http://www.acsone.eu)
 # All Rights Reserved
@@ -23,9 +25,6 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-# Copyright 2024 Simone Rubino - Aion Tech
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
-
 """Test naming logic.
 
 To have more accurate results, remove the ``mail`` module before testing.
@@ -48,50 +47,21 @@ class PartnerContactCase(BaseCase):
     def test_whitespace_cleanup(self):
         """Check that whitespace in name gets cleared."""
         self.expect("newlästname", "newfïrstname")
-        self.original.name = "  newfïrstname  newlästname  "
+        self.original.name = "  newlästname  newfïrstname  "
 
         # Need this to refresh the ``name`` field
-        self.original.invalidate_recordset(["name"])
-
-    def test_multiple_name_creation(self):
-        """Create multiple partners at once, only with "name"."""
-        partners = self.env["res.partner"].create(
-            [
-                {
-                    "name": "Test partner1",
-                },
-                {
-                    "name": "Test partner2",
-                },
-            ]
-        )
-        self.assertRecordValues(
-            partners,
-            [
-                {
-                    "firstname": "Test",
-                    "lastname": "partner1",
-                },
-                {
-                    "firstname": "Test",
-                    "lastname": "partner2",
-                },
-            ],
-        )
+        self.original.invalidate_cache()
 
 
 class PartnerCompanyCase(BaseCase):
     def create_original(self):
-        res = super().create_original()
+        super(PartnerCompanyCase, self).create_original()
         self.original.is_company = True
-        return res
 
     def test_copy(self):
         """Copy the partner and compare the result."""
-        res = super().test_copy()
+        super(PartnerCompanyCase, self).test_copy()
         self.expect(self.name, False, self.name)
-        self.check_fields = False
-        return res
 
     def test_company_inverse(self):
         """Test the inverse method in a company record."""
@@ -102,19 +72,19 @@ class PartnerCompanyCase(BaseCase):
 
 class UserCase(PartnerContactCase):
     def create_original(self):
-        name = f"{self.firstname} {self.lastname}"
+        name = "%s %s" % (self.lastname, self.firstname)
 
         # Cannot create users if ``mail`` is installed
         if self.mail_installed():
             self.original = self.env.ref("base.user_demo")
             self.original.name = name
         else:
-            self.original = self.env["res.users"].create(
-                {"name": name, "login": "firstnametest@example.com"}
-            )
+            self.original = self.env["res.users"].create({
+                "name": name,
+                "login": "firstnametest@example.com"})
 
     def test_copy(self):
         """Copy the partner and compare the result."""
         # Skip if ``mail`` is installed
         if not self.mail_installed():
-            return super().test_copy()
+            super(UserCase, self).test_copy()

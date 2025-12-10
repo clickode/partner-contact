@@ -1,8 +1,8 @@
-# Copyright 2015 Grupo ESOC
+# -*- coding: utf-8 -*-
+# © 2015 Grupo ESOC
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo.tests import TransactionCase
-
+from odoo.tests.common import TransactionCase
 from .base import MailInstalled
 
 
@@ -21,7 +21,7 @@ class CompanyCase(TransactionCase):
         data = {"name": "Söme name"}
         record = self.env[self.model].with_context(**self.context).create(data)
         record.unlink()
-        record.flush_recordset()
+        record.recompute()
 
 
 class PersonCase(CompanyCase):
@@ -35,4 +35,4 @@ class UserCase(CompanyCase, MailInstalled):
     def test_computing_after_unlink(self):
         # Cannot create users if ``mail`` is installed
         if not self.mail_installed():
-            return super().test_computing_after_unlink()
+            super(UserCase, self).test_computing_after_unlink()
